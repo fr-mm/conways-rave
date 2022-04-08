@@ -1,0 +1,16 @@
+{
+  "name": "conways-rave",
+  "version": "1.0.0",
+  "description": "My take on Conway's Game of Life",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Francisco Mascarenhas",
+  "license": "ISC",
+  "devDependencies": {
+    "tslint": "^6.1.3",
+    "typescript": "^4.6.3"
+  }
+}
