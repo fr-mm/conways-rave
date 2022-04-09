@@ -4,13 +4,21 @@
   "description": "My take on Conway's Game of Life",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "start": "parcel serve src/application/index.html",
+    "build": "cross-env NODE_ENV=production parcel build src/application/index.html --public-url .",
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
   "author": "Francisco Mascarenhas",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "cross-env": "^7.0.3",
+    "gh-pages": "^3.2.3",
     "jest": "^27.5.1",
+    "parcel-bundler": "^1.12.5",
+    "ts-jest": "^27.1.4",
     "tslint": "^6.1.3",
     "typescript": "^4.6.3"
   }
