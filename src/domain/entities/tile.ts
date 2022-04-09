@@ -1,5 +1,5 @@
 import { TileSignEnum, TileStatusEnum } from "domain/enums";
-import RuleSetNotSetException from "domain/exceptions/ruleSetNotSetException";
+import { RuleSetFactory } from "domain/factories";
 import RuleSet from "./rulesSet";
 import TileSignResolver from "./tileSignResolver";
 
@@ -12,7 +12,10 @@ export default class Tile {
     signResolver: TileSignResolver,
     status: TileStatusEnum = TileStatusEnum.DEAD
   ) {
-    this._validateRuleSet();
+    if (!Tile._rules) {
+      const ruleSetFactory = new RuleSetFactory();
+      Tile._rules = ruleSetFactory.buildDefault();
+    }
     this._status = status;
     this._signResolver = signResolver;
   }
@@ -32,11 +35,5 @@ export default class Tile {
 
   public forceStatus(status: TileStatusEnum): void {
     this._status = status;
-  }
-
-  private _validateRuleSet() {
-    if (!Tile._rules) {
-      throw new RuleSetNotSetException();
-    }
   }
 }

@@ -1,13 +1,6 @@
 import { Tile, TileSignResolver } from "domain/entities";
 import { RuleSetFactory } from "domain/factories";
-import { RuleSetNotSetException } from "domain/exceptions";
 import { TileStatusEnum, TileSignEnum } from "domain/enums";
-
-test(".constructor WHEN rules are not set THEN throws RuleSetNotSetException", () => {
-  const signResolver = new TileSignResolver();
-
-  expect(() => new Tile(signResolver)).toThrow(RuleSetNotSetException);
-});
 
 test(".constructor WHEN rules are set THEN creates instance", () => {
   const signResolver = new TileSignResolver();
