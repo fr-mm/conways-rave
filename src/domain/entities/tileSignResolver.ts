@@ -1,4 +1,5 @@
 import { TileSignEnum, TileStatusEnum } from "domain/enums";
+import { TileStatusNotFoundException } from "domain/exceptions";
 
 const statusToSignMap = new Map();
 statusToSignMap.set(TileStatusEnum.ALIVE, TileSignEnum.ALIVE);
@@ -8,6 +9,10 @@ export default class TileSignResolver {
   private static _statusToSignMap = statusToSignMap;
 
   public resolve(status: TileStatusEnum): TileSignEnum {
-    return TileSignResolver._statusToSignMap.get(status);
+    const sign = TileSignResolver._statusToSignMap.get(status);
+    if (!sign) {
+      throw new TileStatusNotFoundException();
+    }
+    return sign;
   }
 }

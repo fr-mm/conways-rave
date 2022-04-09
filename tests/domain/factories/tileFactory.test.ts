@@ -13,5 +13,5 @@ test(".buildDeadOrAlive WHEN called THEN returns dead or alive tile", () => {
 
   const tile = tileFactory.buildDeadOrAlive();
 
-  expect(tile.isAlive).toBe(true || false);
+  expect(tile.isAlive == true || tile.isAlive == false).toBeTruthy();
 });
