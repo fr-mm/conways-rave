@@ -13,7 +13,7 @@ test(".asText WHEN called THEN returns assigned text", () => {
 
   const actualText = landscape.asText;
 
-  const expectedText = " O <br>  O<br>OO <br>";
+  const expectedText = `${TileSignEnum.DEAD}${TileSignEnum.ALIVE}${TileSignEnum.DEAD}<br>${TileSignEnum.DEAD}${TileSignEnum.DEAD}${TileSignEnum.ALIVE}<br>${TileSignEnum.ALIVE}${TileSignEnum.ALIVE}${TileSignEnum.DEAD}<br>`;
   expect(actualText).toBe(expectedText);
 });
 

@@ -26,7 +26,7 @@ export default class GenerateNextLandscapeServices {
       const line = [];
       for (let y = 0; y < oldLandscape.width; y++) {
         const char = this._getFutureChar({
-          coordinates: { x: x, y: y },
+          coordinates: { x: y, y: x }, //FIX THIS INVERSION
           oldLandscape: oldLandscape,
         });
         line.push(char);

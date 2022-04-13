@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "My take on Conway's Game of Life",
   "main": "index.js",
+  "files": [
+      "src/"
+  ],
+  "alias": {"domain": "./src/domain"},
   "scripts": {
     "test": "jest",
     "start": "parcel serve src/application/index.html",

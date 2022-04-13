@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -9,6 +10,10 @@
     "baseUrl": "src"
   },
   "include": [
-      "src"
+      "src/**/*"
+  ],
+  "exclude": [
+      ".git",
+      "node_modules"
   ]
 }

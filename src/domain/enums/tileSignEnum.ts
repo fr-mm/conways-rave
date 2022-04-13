@@ -1,6 +1,6 @@
 enum TileSignEnum {
   ALIVE = "O",
-  DEAD = " ",
+  DEAD = "&nbsp",
 }
 
 export default TileSignEnum;
