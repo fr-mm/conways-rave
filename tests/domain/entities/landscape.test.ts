@@ -32,3 +32,48 @@ test(".getCharAt WHEN coordinates valid THEN returns expected char", () => {
   const expectedChar = TileSignEnum.ALIVE;
   expect(actualChar).toBe(expectedChar);
 });
+
+test(".getNeighbours WHEN all neighbours exist THEN return neighbours", () => {
+  const landscapeArgs = {
+    matrix: [
+      [TileSignEnum.DEAD, TileSignEnum.ALIVE, TileSignEnum.DEAD],
+      [TileSignEnum.ALIVE, TileSignEnum.DEAD, TileSignEnum.ALIVE],
+      [TileSignEnum.DEAD, TileSignEnum.ALIVE, TileSignEnum.DEAD],
+    ],
+  };
+  const landscape = new Landscape(landscapeArgs);
+
+  const actualNeighbours = landscape.getNeighbours({ x: 1, y: 1 });
+
+  const expectedNeighbours = [
+    TileSignEnum.DEAD,
+    TileSignEnum.ALIVE,
+    TileSignEnum.DEAD,
+    TileSignEnum.ALIVE,
+    TileSignEnum.ALIVE,
+    TileSignEnum.DEAD,
+    TileSignEnum.ALIVE,
+    TileSignEnum.DEAD,
+  ];
+  expect(actualNeighbours).toStrictEqual(expectedNeighbours);
+});
+
+test(".getNeighbours WHEN three neighbours exist THEN return neighbours", () => {
+  const landscapeArgs = {
+    matrix: [
+      [TileSignEnum.DEAD, TileSignEnum.ALIVE, TileSignEnum.DEAD],
+      [TileSignEnum.ALIVE, TileSignEnum.DEAD, TileSignEnum.ALIVE],
+      [TileSignEnum.DEAD, TileSignEnum.ALIVE, TileSignEnum.DEAD],
+    ],
+  };
+  const landscape = new Landscape(landscapeArgs);
+
+  const actualNeighbours = landscape.getNeighbours({ x: 0, y: 0 });
+
+  const expectedNeighbours = [
+    TileSignEnum.ALIVE,
+    TileSignEnum.ALIVE,
+    TileSignEnum.DEAD,
+  ];
+  expect(actualNeighbours).toStrictEqual(expectedNeighbours);
+});

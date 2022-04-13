@@ -27,6 +27,12 @@ export default class LandscapeCoordinates {
     return this._y;
   }
 
+  public equals(landscapeCoordinates: LandscapeCoordinates): boolean {
+    return (
+      landscapeCoordinates.x === this.x && landscapeCoordinates.y === this.y
+    );
+  }
+
   private _validate(args: LandscapeCoordinatesArgs): void {
     this._validateCoordinate(args.coordinates.x, args.landscapeSize.x);
     this._validateCoordinate(args.coordinates.y, args.landscapeSize.y);
