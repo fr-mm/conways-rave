@@ -6,6 +6,11 @@ interface LandscapeParameters {
   buildTileCallback: () => Tile;
 }
 
+interface Coordinates {
+  x: number;
+  y: number;
+}
+
 export default class Landscape {
   private _matrix: Tile[][];
   private _breakLineChar: string;
@@ -17,14 +22,21 @@ export default class Landscape {
 
   public get nextFrame(): string {
     let frame = "";
-    for (let row = 0; row < this._matrix.length; row++) {
-      for (let column = 0; column < this._matrix[0].length; column++) {
-        const tile = this._matrix[row][column];
+    for (
+      let coordinateY = 0;
+      coordinateY < this._matrix.length;
+      coordinateY++
+    ) {
+      for (
+        let coordinateX = 0;
+        coordinateX < this._matrix[0].length;
+        coordinateX++
+      ) {
+        const tile = this.getTile({ x: coordinateX, y: coordinateY });
         const neighboursCount = this.countNeighbours({
-          column: column,
-          row: row,
+          x: coordinateY,
+          y: coordinateY,
         });
-        column == 1 && row == 1 ? console.log(neighboursCount) : undefined;
         frame += tile.getNextSign(neighboursCount);
       }
       frame += this._breakLineChar;
@@ -32,45 +44,64 @@ export default class Landscape {
     return frame;
   }
 
-  public getTile(column: number, row: number): Tile {
-    return this._matrix[row][column];
+  public getTile(coordinates: Coordinates): Tile {
+    return this._matrix[coordinates.y][coordinates.x];
   }
 
   private _buildMatrix(args: LandscapeParameters): Tile[][] {
     const matrix = [];
-    for (let column = 0; column < args.columns; column++) {
-      const column = [];
-      for (let row = 0; row < args.rows; row++) {
+    for (let row = 0; row < args.rows; row++) {
+      const row = [];
+      for (let column = 0; column < args.columns; column++) {
         const tile = args.buildTileCallback();
-        column.push(tile);
+        row.push(tile);
       }
-      matrix.push(column);
+      matrix.push(row);
     }
     return matrix;
   }
 
-  countNeighbours(index: { column: number; row: number }): number {
+  countNeighbours(centerCoordinates: Coordinates): number {
     let neighbours = 0;
-    for (let row = index.row - 1; row <= index.row + 1; row++) {
+    for (
+      let centerY = centerCoordinates.y - 1;
+      centerY <= centerCoordinates.y + 1;
+      centerY++
+    ) {
       for (
-        let column = index.column - 1;
-        column <= index.column + 1;
-        column++
+        let centerX = centerCoordinates.x - 1;
+        centerX <= centerCoordinates.x + 1;
+        centerX++
       ) {
-        if (!({ column: column, row: row } == index)) {
-          try {
-            const neighbour = this._matrix[column][row];
-            if (neighbour && neighbour.isAlive) {
-              neighbours++;
-            }
-          } catch (error) {
-            if (!(error instanceof TypeError)) {
-              throw error;
-            }
-          }
+        const neighbourCoordinates: Coordinates = {
+          x: centerX,
+          y: centerY,
+        };
+        if (this._neighbourIsAlive(centerCoordinates, neighbourCoordinates)) {
+          neighbours++;
         }
       }
     }
     return neighbours;
+  }
+
+  private _neighbourIsAlive(
+    centerCoordinates: Coordinates,
+    neighbourCoordinates: Coordinates
+  ): boolean {
+    let result = false;
+    if (!(neighbourCoordinates == centerCoordinates)) {
+      try {
+        const neighbour = this.getTile(neighbourCoordinates);
+        if (neighbour && neighbour.isAlive) {
+          result = true;
+        }
+      } catch (error) {
+        if (!(error instanceof TypeError)) {
+          throw error;
+        }
+      }
+    }
+    return result;
   }
 }
