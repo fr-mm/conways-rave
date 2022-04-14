@@ -1038,8 +1038,8 @@ var getLandscapeSize = function getLandscapeSize() {
   var body = element.getElementsByTagName("body")[0];
   var pixelsX = window.innerWidth || element.clientWidth || body.clientWidth;
   var pixelsY = window.innerHeight || element.clientHeight || body.clientHeight;
-  var charsX = Math.ceil(pixelsX / 8.9);
-  var charsY = Math.ceil(pixelsY / 15.9);
+  var charsX = Math.ceil(pixelsX / 7.2);
+  var charsY = Math.ceil(pixelsY / 14.2);
   return new valueObjects_1.LandscapeSize({
     x: charsX,
     y: charsY
@@ -1079,7 +1079,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45311" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37303" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
