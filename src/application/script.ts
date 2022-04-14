@@ -34,8 +34,8 @@ const getLandscapeSize = (): LandscapeSize => {
   const pixelsY =
     window.innerHeight || element.clientHeight || body.clientHeight;
 
-  const charsX = Math.ceil(pixelsX / 8.9);
-  const charsY = Math.ceil(pixelsY / 15.9);
+  const charsX = Math.ceil(pixelsX / 7.2);
+  const charsY = Math.ceil(pixelsY / 14.2);
   return new LandscapeSize({ x: charsX, y: charsY });
 };
 
