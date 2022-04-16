@@ -2,25 +2,25 @@ import {
   CreateLandscapeServicePort,
   GenerateNextLandscapeServicePort,
   PrintLandscapeServicePort,
+  RunSimulationServicePort,
 } from "domain/ports";
 
 interface RunSimulationServiceArgs {
   createLandscapeService: CreateLandscapeServicePort;
   generateNextLandscapeService: GenerateNextLandscapeServicePort;
-  frameTimeoutMS: number;
   printLandscapeService: PrintLandscapeServicePort;
 }
 
-export default class RunSimulationService {
+export default class RunSimulationService implements RunSimulationServicePort {
+  private _frameTimeoutMS: number;
   private _createLandscapeService: CreateLandscapeServicePort;
   private _generateNextLandscapeService: GenerateNextLandscapeServicePort;
-  private _frameTimeoutMS: number;
   private _printLandscapeService: PrintLandscapeServicePort;
 
   constructor(args: RunSimulationServiceArgs) {
+    this._frameTimeoutMS = 50;
     this._createLandscapeService = args.createLandscapeService;
     this._generateNextLandscapeService = args.generateNextLandscapeService;
-    this._frameTimeoutMS = args.frameTimeoutMS;
     this._printLandscapeService = args.printLandscapeService;
   }
 

@@ -1,46 +1,31 @@
-import { Landscape } from "domain/entities";
 import { LandscapeFactory, RuleSetFactory } from "domain/factories";
-import { GenerateNextLandscapeServices } from "domain/services";
-import { LandscapeSize } from "domain/valueObjects";
+import {
+  CreateRandomLandscapeService,
+  GenerateNextLandscapeService,
+  GetMaxLandscapeSizeForBrowserService,
+  PrintLandscapeService,
+  RunSimulationService,
+} from "domain/services";
 
-const runApp = (): void => {
-  const frameTimeoutMS = 50;
-  const ruleSetFactory = new RuleSetFactory();
+const runApp = () => {
   const landscapeFactory = new LandscapeFactory();
-  const generateNextLandscapeService = new GenerateNextLandscapeServices({
+  const getMaxLandscapeSizeForBrowserService =
+    new GetMaxLandscapeSizeForBrowserService();
+  const createLandscapeService = new CreateRandomLandscapeService({
+    landscapeFactory: landscapeFactory,
+    getMaxLandscapeSizeForBrowserService: getMaxLandscapeSizeForBrowserService,
+  });
+  const ruleSetFactory = new RuleSetFactory();
+  const generateNextLandscapeService = new GenerateNextLandscapeService({
     ruleSet: ruleSetFactory.buildDefault(),
     landscapeFactory: landscapeFactory,
   });
-  const landscapeSize = getLandscapeSize();
-  const initialLandscape = landscapeFactory.randomized({
-    size: { x: landscapeSize.x, y: landscapeSize.y },
+  const printLandscapeService = new PrintLandscapeService();
+  const runSimulationService = new RunSimulationService({
+    createLandscapeService: createLandscapeService,
+    generateNextLandscapeService: generateNextLandscapeService,
+    printLandscapeService: printLandscapeService,
   });
-
-  const runFrames = (landscape: Landscape) => {
-    print(landscape.asText);
-    const nextLandscape = generateNextLandscapeService.execute(landscape);
-    setTimeout(() => {
-      runFrames(nextLandscape);
-    }, frameTimeoutMS);
-  };
-
-  runFrames(initialLandscape);
+  runSimulationService.execute();
 };
-
-const getLandscapeSize = (): LandscapeSize => {
-  const element = document.documentElement;
-  const body = element.getElementsByTagName("body")[0];
-  const pixelsX = window.innerWidth || element.clientWidth || body.clientWidth;
-  const pixelsY =
-    window.innerHeight || element.clientHeight || body.clientHeight;
-
-  const charsX = Math.ceil(pixelsX / 7.2);
-  const charsY = Math.ceil(pixelsY / 14.2);
-  return new LandscapeSize({ x: charsX, y: charsY });
-};
-
-const print = (text: string): void => {
-  document.getElementsByClassName("main")[0].innerHTML = text;
-};
-
 runApp();
