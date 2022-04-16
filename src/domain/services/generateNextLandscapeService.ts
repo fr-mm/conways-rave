@@ -25,11 +25,11 @@ export default class GenerateNextLandscapeService
   }
   public execute(oldLandscape: Landscape): Landscape {
     const matrix: TileSignEnum[][] = [];
-    for (let x = 0; x < oldLandscape.height; x++) {
+    for (let y = 0; y < oldLandscape.height; y++) {
       const line = [];
-      for (let y = 0; y < oldLandscape.width; y++) {
+      for (let x = 0; x < oldLandscape.width; x++) {
         const char = this._getFutureChar({
-          coordinates: { x: y, y: x }, //FIX THIS INVERSION
+          coordinates: { x: x, y: y },
           oldLandscape: oldLandscape,
         });
         line.push(char);
