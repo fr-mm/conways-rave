@@ -911,27 +911,27 @@ Object.defineProperty(exports, "__esModule", {
 
 var enums_1 = require("domain/enums");
 
-var GenerateNextLandscapeServices = /*#__PURE__*/function () {
-  function GenerateNextLandscapeServices(args) {
-    _classCallCheck(this, GenerateNextLandscapeServices);
+var GenerateNextLandscapeService = /*#__PURE__*/function () {
+  function GenerateNextLandscapeService(args) {
+    _classCallCheck(this, GenerateNextLandscapeService);
 
     this._rules = args.ruleSet;
     this._landscapeFactory = args.landscapeFactory;
   }
 
-  _createClass(GenerateNextLandscapeServices, [{
+  _createClass(GenerateNextLandscapeService, [{
     key: "execute",
     value: function execute(oldLandscape) {
       var matrix = [];
 
-      for (var x = 0; x < oldLandscape.height; x++) {
+      for (var y = 0; y < oldLandscape.height; y++) {
         var line = [];
 
-        for (var y = 0; y < oldLandscape.width; y++) {
+        for (var x = 0; x < oldLandscape.width; x++) {
           var char = this._getFutureChar({
             coordinates: {
-              x: y,
-              y: x
+              x: x,
+              y: y
             },
             oldLandscape: oldLandscape
           });
@@ -972,11 +972,164 @@ var GenerateNextLandscapeServices = /*#__PURE__*/function () {
     }
   }]);
 
-  return GenerateNextLandscapeServices;
+  return GenerateNextLandscapeService;
 }();
 
-exports.default = GenerateNextLandscapeServices;
-},{"domain/enums":"../domain/enums/index.ts"}],"../domain/services/index.ts":[function(require,module,exports) {
+exports.default = GenerateNextLandscapeService;
+},{"domain/enums":"../domain/enums/index.ts"}],"../domain/services/getMaxLandscapeSizeForBrowserService.ts":[function(require,module,exports) {
+"use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var valueObjects_1 = require("domain/valueObjects");
+
+var GetMaxLandscapeSizeForBrowserService = /*#__PURE__*/function () {
+  function GetMaxLandscapeSizeForBrowserService() {
+    _classCallCheck(this, GetMaxLandscapeSizeForBrowserService);
+
+    this._XPixelsPerChar = 7.2;
+    this._YPixelsPerChar = 14.2;
+  }
+
+  _createClass(GetMaxLandscapeSizeForBrowserService, [{
+    key: "execute",
+    value: function execute() {
+      var element = document.documentElement;
+      var body = element.getElementsByTagName("body")[0];
+      var pixelsX = window.innerWidth || element.clientWidth || body.clientWidth;
+      var pixelsY = window.innerHeight || element.clientHeight || body.clientHeight;
+      var charsX = Math.ceil(pixelsX / this._XPixelsPerChar);
+      var charsY = Math.ceil(pixelsY / this._YPixelsPerChar);
+      return new valueObjects_1.LandscapeSize({
+        x: charsX,
+        y: charsY
+      });
+    }
+  }]);
+
+  return GetMaxLandscapeSizeForBrowserService;
+}();
+
+exports.default = GetMaxLandscapeSizeForBrowserService;
+},{"domain/valueObjects":"../domain/valueObjects/index.ts"}],"../domain/services/createRandomLandscapeService.ts":[function(require,module,exports) {
+"use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var CreateRandomLandscapeService = /*#__PURE__*/function () {
+  function CreateRandomLandscapeService(args) {
+    _classCallCheck(this, CreateRandomLandscapeService);
+
+    this._landscapeFactory = args.landscapeFactory;
+    this._getMaxLandscapeSizeForBrowserService = args.getMaxLandscapeSizeForBrowserService;
+  }
+
+  _createClass(CreateRandomLandscapeService, [{
+    key: "execute",
+    value: function execute() {
+      var landscapeSize = this._getMaxLandscapeSizeForBrowserService.execute();
+
+      return this._landscapeFactory.randomized({
+        size: landscapeSize
+      });
+    }
+  }]);
+
+  return CreateRandomLandscapeService;
+}();
+
+exports.default = CreateRandomLandscapeService;
+},{}],"../domain/services/printLandscapeService.ts":[function(require,module,exports) {
+"use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var PrintLandscapeService = /*#__PURE__*/function () {
+  function PrintLandscapeService() {
+    _classCallCheck(this, PrintLandscapeService);
+  }
+
+  _createClass(PrintLandscapeService, [{
+    key: "execute",
+    value: function execute(landscape) {
+      document.getElementsByClassName("main")[0].innerHTML = landscape.asText;
+    }
+  }]);
+
+  return PrintLandscapeService;
+}();
+
+exports.default = PrintLandscapeService;
+},{}],"../domain/services/runSimulationService.ts":[function(require,module,exports) {
+"use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var RunSimulationService = /*#__PURE__*/function () {
+  function RunSimulationService(args) {
+    _classCallCheck(this, RunSimulationService);
+
+    this._frameTimeoutMS = 50;
+    this._createLandscapeService = args.createLandscapeService;
+    this._generateNextLandscapeService = args.generateNextLandscapeService;
+    this._printLandscapeService = args.printLandscapeService;
+  }
+
+  _createClass(RunSimulationService, [{
+    key: "execute",
+    value: function execute() {
+      var _this = this;
+
+      var landscape = this._createLandscapeService.execute();
+
+      var runFrames = function runFrames() {
+        _this._printLandscapeService.execute(landscape);
+
+        landscape = _this._generateNextLandscapeService.execute(landscape);
+        setTimeout(runFrames, _this._frameTimeoutMS);
+      };
+
+      runFrames();
+    }
+  }]);
+
+  return RunSimulationService;
+}();
+
+exports.default = RunSimulationService;
+},{}],"../domain/services/index.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -988,12 +1141,28 @@ var __importDefault = this && this.__importDefault || function (mod) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GenerateNextLandscapeServices = void 0;
+exports.RunSimulationService = exports.PrintLandscapeService = exports.CreateRandomLandscapeService = exports.GetMaxLandscapeSizeForBrowserService = exports.GenerateNextLandscapeService = void 0;
 
 var generateNextLandscapeService_1 = __importDefault(require("./generateNextLandscapeService"));
 
-exports.GenerateNextLandscapeServices = generateNextLandscapeService_1.default;
-},{"./generateNextLandscapeService":"../domain/services/generateNextLandscapeService.ts"}],"script.ts":[function(require,module,exports) {
+exports.GenerateNextLandscapeService = generateNextLandscapeService_1.default;
+
+var getMaxLandscapeSizeForBrowserService_1 = __importDefault(require("./getMaxLandscapeSizeForBrowserService"));
+
+exports.GetMaxLandscapeSizeForBrowserService = getMaxLandscapeSizeForBrowserService_1.default;
+
+var createRandomLandscapeService_1 = __importDefault(require("./createRandomLandscapeService"));
+
+exports.CreateRandomLandscapeService = createRandomLandscapeService_1.default;
+
+var printLandscapeService_1 = __importDefault(require("./printLandscapeService"));
+
+exports.PrintLandscapeService = printLandscapeService_1.default;
+
+var runSimulationService_1 = __importDefault(require("./runSimulationService"));
+
+exports.RunSimulationService = runSimulationService_1.default;
+},{"./generateNextLandscapeService":"../domain/services/generateNextLandscapeService.ts","./getMaxLandscapeSizeForBrowserService":"../domain/services/getMaxLandscapeSizeForBrowserService.ts","./createRandomLandscapeService":"../domain/services/createRandomLandscapeService.ts","./printLandscapeService":"../domain/services/printLandscapeService.ts","./runSimulationService":"../domain/services/runSimulationService.ts"}],"script.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1004,54 +1173,29 @@ var factories_1 = require("domain/factories");
 
 var services_1 = require("domain/services");
 
-var valueObjects_1 = require("domain/valueObjects");
-
 var runApp = function runApp() {
-  var frameTimeoutMS = 50;
-  var ruleSetFactory = new factories_1.RuleSetFactory();
   var landscapeFactory = new factories_1.LandscapeFactory();
-  var generateNextLandscapeService = new services_1.GenerateNextLandscapeServices({
+  var getMaxLandscapeSizeForBrowserService = new services_1.GetMaxLandscapeSizeForBrowserService();
+  var createLandscapeService = new services_1.CreateRandomLandscapeService({
+    landscapeFactory: landscapeFactory,
+    getMaxLandscapeSizeForBrowserService: getMaxLandscapeSizeForBrowserService
+  });
+  var ruleSetFactory = new factories_1.RuleSetFactory();
+  var generateNextLandscapeService = new services_1.GenerateNextLandscapeService({
     ruleSet: ruleSetFactory.buildDefault(),
     landscapeFactory: landscapeFactory
   });
-  var landscapeSize = getLandscapeSize();
-  var initialLandscape = landscapeFactory.randomized({
-    size: {
-      x: landscapeSize.x,
-      y: landscapeSize.y
-    }
+  var printLandscapeService = new services_1.PrintLandscapeService();
+  var runSimulationService = new services_1.RunSimulationService({
+    createLandscapeService: createLandscapeService,
+    generateNextLandscapeService: generateNextLandscapeService,
+    printLandscapeService: printLandscapeService
   });
-
-  var runFrames = function runFrames(landscape) {
-    print(landscape.asText);
-    var nextLandscape = generateNextLandscapeService.execute(landscape);
-    setTimeout(function () {
-      runFrames(nextLandscape);
-    }, frameTimeoutMS);
-  };
-
-  runFrames(initialLandscape);
-};
-
-var getLandscapeSize = function getLandscapeSize() {
-  var element = document.documentElement;
-  var body = element.getElementsByTagName("body")[0];
-  var pixelsX = window.innerWidth || element.clientWidth || body.clientWidth;
-  var pixelsY = window.innerHeight || element.clientHeight || body.clientHeight;
-  var charsX = Math.ceil(pixelsX / 7.2);
-  var charsY = Math.ceil(pixelsY / 14.2);
-  return new valueObjects_1.LandscapeSize({
-    x: charsX,
-    y: charsY
-  });
-};
-
-var print = function print(text) {
-  document.getElementsByClassName("main")[0].innerHTML = text;
+  runSimulationService.execute();
 };
 
 runApp();
-},{"domain/factories":"../domain/factories/index.ts","domain/services":"../domain/services/index.ts","domain/valueObjects":"../domain/valueObjects/index.ts"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"domain/factories":"../domain/factories/index.ts","domain/services":"../domain/services/index.ts"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -1079,7 +1223,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37303" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40089" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
