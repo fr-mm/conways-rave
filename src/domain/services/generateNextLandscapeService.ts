@@ -1,6 +1,7 @@
 import { Landscape, RuleSet } from "domain/entities";
 import { TileSignEnum, TileStatusEnum } from "domain/enums";
 import { LandscapeFactory } from "domain/factories";
+import { GenerateNextLandscapeServicePort } from "domain/ports";
 
 interface GenerateNextLandscapeServicesArgs {
   ruleSet: RuleSet;
@@ -12,7 +13,9 @@ interface Coordinates {
   y: number;
 }
 
-export default class GenerateNextLandscapeServices {
+export default class GenerateNextLandscapeService
+  implements GenerateNextLandscapeServicePort
+{
   private _rules: RuleSet;
   private _landscapeFactory: LandscapeFactory;
 
