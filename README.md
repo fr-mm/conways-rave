@@ -19,5 +19,5 @@ When the page is loaded, live cells are placed at random.
 
 ### Watch it
 
-https://francisco-mascarenhas.github.io/conways-rave/
+https://fr-mm.github.io/conways-rave/
 
